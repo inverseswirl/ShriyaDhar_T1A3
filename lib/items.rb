@@ -39,7 +39,7 @@ module Inventory
    end
   end
 
-  def Inventory.update_quantity
+  def Inventory.add_sold_units
     item=Item.new
     rows = []
     i=0
@@ -91,6 +91,6 @@ end
 
 
 
-puts Inventory.update_quantity
+puts Inventory.add_sold_units
 
 
