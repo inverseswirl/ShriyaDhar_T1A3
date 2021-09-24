@@ -11,6 +11,7 @@ gem "terminal-table", "~> 3.0"
 
 gem "tty-prompt", "~> 0.23.1"
 
-gem "rainbow", "~> 3.0"
 
 gem "rspec", "~> 3.10"
+
+gem "colorize", "~> 0.8.1"
