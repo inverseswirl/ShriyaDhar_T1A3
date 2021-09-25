@@ -13,8 +13,7 @@ Problems statements- FEATURE ONE-UPDATE DAILY INVENTORY(Product wise)
 1. Existing initial quantity purchased is given.
 2. How to enter details for number of units sold per day.?
 3. How to retrieve how many units left?
- 
-=end
+ =end
 
 =begin
 Problems statements- two(Sales report)
@@ -25,72 +24,168 @@ Problems statements- two(Sales report)
 5. margin
 =end
 
-module Inventory
+
+
+
+
+#Module inventory for first Feature........
+# module Inventory
 
   
   class Item
-    attr_accessor :name, :price, :initial_quantity
+    attr_accessor :name, :price, :quantity, :units_sold, :updated_quantity
+
    def initialize
      @name = ["scented_candles", "greeting_cards", "wall_clocks", 
       "photo_frames", "soft_toys", "perfume_bottles", "chocolate_boxes", 
-      "Jigsaw_puzzle_box", "souvenir_mugs"]
-      @price = [15, 10, 50, 18, 70, 150, 65, 78, 25]
-      @initial_quantity = [65, 100, 20, 30, 20, 22, 25, 15, 30]
-   end
-  end
+      "Jigsaw_puzzle_box", "souvenir_mugs", "novels"]
+      @price = [15, 10, 50, 18, 70, 150, 65, 78, 25, 20]
+      @quantity = [65, 100, 20, 30, 20, 22, 25, 15, 30, 50]
+      @units_sold = []
+      @updated_quantity = []
+    end
+    
+   
+   
+ 
+  
 
-  def Inventory.add_sold_units
-    item=Item.new
+  def display_list
+    puts " Current Inventory   \n"\
+         "--------------------"
+    
+    time = Time.new
     rows = []
     i=0
+     @name.length
+     while i < @name.length
+      rows << [@name[i].capitalize, @price[i], @quantity[i]]
+      rows << :separator 
+      i+=1
+     end
+ 
+    table = Terminal::Table.new :headings => ['Items'.light_green, 'Price(AUD$)'
+     .light_green, "Quantity".light_green], 
+    :rows => rows, :title => " Inventory Check"
+    .light_blue.on_black
+    return table
 
-    while i < 9
+  end
+
+ #adds sold units......
+  def add_sold_units
+
+    rows = []
+ 
+    i=0
+    while i < @name.length
      units_sold_prompt = "----------------------------------------\n"\
-                         "Add no.of units of #{item.name[i]} sold \n"\
+                         "Add no.of units of #{@name[i]} sold \n"\
                          "----------------------------------------"
      puts units_sold_prompt.light_cyan
      input_user = gets.strip.to_i
      if input_user != 0
-       rows << [item.name[i].capitalize, item.price[i], item.initial_quantity[i],
-      input_user] 
+         @units_sold[i] = input_user
       else
        puts "ERROR ".light_red.on_black + " :Invalid input, add integer only"
-       .red.on_black
+       .light_red.on_black
       next 
      end
-      rows << :separator 
       i+=1
     end
-
-    table = Terminal::Table.new :headings => ['Items', 'Price(AUD$)', "Quantity",
-    "Units Sold"], 
-    :rows => rows, :title => " Inventory Check "
-    return table
- 
-    #  end
   end
 
-  def Inventory.display_list
-   item = Item.new
-   rows = []
-   i=0
 
-    while i < 9
-     rows << [item.name[i].capitalize, item.price[i], item.initial_quantity[i]]
-     rows << :separator 
-     i+=1
+  def quantity_update
+    
+    puts "                     Updated Inventory\n "\
+          "                  ----------------------"
+    q=0
+    while q < @name.length
+      @updated_quantity[q] = (@quantity[q] - @units_sold[q])
+    q+=1
     end
 
-   table = Terminal::Table.new :headings => ['Items', 'Price(AUD$)', "Quantity"], 
-   :rows => rows, :title => " Inventory Check "
-   return table
+
+     rows = []
+     i=0
+     while i < @name.length
+        rows << [@name[i].capitalize, @price[i], @updated_quantity[i], 
+        @units_sold[i]]
+        rows << :separator 
+        i+=1
+      end
+   
+     table = Terminal::Table.new :headings => ['Items'.light_green, 'Price(AUD$)'
+      .light_green, "Quantity".light_green, "Units_sold".light_green], 
+      :rows => rows, :title => " Inventory Check ".light_blue.on_black
+     
+    puts table
   end
 
-end
+ 
+  def regular_daily_update
+    
+
+    q=0
+
+ 
+    while q < @name.length
+      @updated_quantity[q] = (updated_quantity[q] - @units_sold[q])
+    q+=1
+    end
+
+    rows = []
+    i=0
+    while i < @name.length
+       rows << [@name[i].capitalize, @price[i], @updated_quantity[i], 
+       @units_sold[i]]
+       rows << :separator 
+       i+=1
+     end
+  
+    table = Terminal::Table.new :headings => ['Items'.light_green, 'Price(AUD$)'
+     .light_green, "Quantity".light_green, "Units_sold".light_green], 
+     :rows => rows, :title => " Inventory Check ".light_blue.on_black
+    
+   puts table
+
+
+
+  end
+
+  
+ end
+
+# end
 
 
 
 
-puts Inventory.add_sold_units
 
+# class Message_Item_update < Item
+#      attr_accessor :update_input
+
+#      def initialize
+#       puts "Do you want to update inventory & add sold units?"
+#       puts "Answer -  yes or no"
+#       @update_input = gets.strip 
+      
+
+#      end
+
+    
+
+
+#  # if user_input.instance_of? String == true
+    
+#   #  if update_input.instance_of? String != true
+#   #   puts "Error"
+#   #  end
+     
+
+#   #  if update_input == "yes" || update_input == "Yes" || update_input == "YES"
+
+#   #  end
+# end
 
