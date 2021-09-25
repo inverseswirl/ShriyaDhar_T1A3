@@ -33,7 +33,7 @@ Problems statements- two(Sales report)
 
   
   class Item
-    attr_accessor :name, :price, :quantity, :units_sold, :updated_quantity
+    attr_accessor :name, :price, :quantity, :units_sold, :updated_quantity, :update_input
 
    def initialize
      @name = ["scented_candles", "greeting_cards", "wall_clocks", 
@@ -70,6 +70,16 @@ Problems statements- two(Sales report)
     .light_blue.on_black
     return table
 
+  end
+
+
+  def message_for_item_update
+    puts "Do you want to update inventory & add sold units?"
+    puts "Options - yes or no"
+    puts "\n"
+    @update_input = gets.strip 
+    
+ 
   end
 
  #adds sold units......
@@ -161,31 +171,4 @@ Problems statements- two(Sales report)
 
 
 
-
-
-# class Message_Item_update < Item
-#      attr_accessor :update_input
-
-#      def initialize
-#       puts "Do you want to update inventory & add sold units?"
-#       puts "Answer -  yes or no"
-#       @update_input = gets.strip 
-      
-
-#      end
-
-    
-
-
-#  # if user_input.instance_of? String == true
-    
-#   #  if update_input.instance_of? String != true
-#   #   puts "Error"
-#   #  end
-     
-
-#   #  if update_input == "yes" || update_input == "Yes" || update_input == "YES"
-
-#   #  end
-# end
 

@@ -1,29 +1,34 @@
 require_relative './items.rb'
+require 'colorize'
 
 
 item= Item.new
 
-puts item.display_list
-puts item.add_sold_units  
-puts item.quantity_update
+
+puts item.display_list 
+# puts item.add_sold_units  
+# puts item.quantity_update
 
 
-# message1 = Message_Item_update.new
+loop do
+    item.message_for_item_update 
+    if item.update_input == "yes" 
+        puts item.add_sold_units  
+        puts item.quantity_update
+        break
+    elsif item.update_input == "no" 
+        break
+      else 
+        puts "Error: enter - yes or no\n".red.on_black + "-------------------------\n".light_cyan
+    end
+end
 
-# if !message1
-#     raise "enter yes or no"
 
-# elsif message1.update_input == "yes" 
+
+
+# if item.update_input == "yes" 
 #     puts item.add_sold_units  
-#    puts item.quantity_update
-
-# elsif message1.update_input == "no" 
-#    exit
-# else
-#     raise "Invalid input"
-
-
-
+#     puts item.quantity_update
 # end
 
 
