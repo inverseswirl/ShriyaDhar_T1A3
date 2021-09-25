@@ -33,7 +33,8 @@ Problems statements- two(Sales report)
 
   
   class Item
-    attr_accessor :name, :price, :quantity, :units_sold, :updated_quantity, :update_input
+    attr_accessor :name, :price, :quantity, :units_sold, :updated_quantity, 
+    :update_input, :reorder_quantity
 
    def initialize
      @name = ["scented_candles", "greeting_cards", "wall_clocks", 
@@ -41,18 +42,44 @@ Problems statements- two(Sales report)
       "Jigsaw_puzzle_box", "souvenir_mugs", "novels"]
       @price = [15, 10, 50, 18, 70, 150, 65, 78, 25, 20]
       @quantity = [65, 100, 20, 30, 20, 22, 25, 15, 30, 50]
+      @reorder_quantity = []
       @units_sold = []
       @updated_quantity = []
     end
     
    
    
- 
+  # def get_reorder_quantity
+  #   puts "To get the reorder quantity, add sold units for each item"
+  #   i=0
+  #   average_lead_time = [10, 10, 20, 15, 30, 24, 10, 20, 15, 23] # in days
+  #   average_daily_units_sold = [4, 14, 1, 3, 5, 3, 1, 9, 4, 5, 6]
+  #   while i < @name.length
+  #      @reorder_quantity[i] =  average_daily_units_sold[i] * average_lead_time[i]
+  #     i+=1
+  #   end
+  #   rows = []
+  #    i=0
+  #    while i < @name.length
+  #       rows << [@name[i].capitalize, @price[i], @quantity[i], 
+  #       average_daily_units_sold[i], @reorder_quantity[i]]
+  #       rows << :separator 
+  #       i+=1
+  #     end
+   
+  #    table = Terminal::Table.new :headings => ['Items'.light_green, 'Price(AUD$)'
+  #     .light_green, "Quantity".light_green, "Average Daily Units Sold".light_green, 
+  #       "Reorder Quantity".light_green], 
+  #     :rows => rows, :title => " Inventory Check ".light_blue.on_black
+     
+  #   puts table
+
+  # end
   
 
   def display_list
-    puts " Current Inventory   \n"\
-         "--------------------"
+    puts " Shop's Current Inventory   \n"\
+         "-------------------------"
     
     time = Time.new
     rows = []
@@ -78,7 +105,7 @@ Problems statements- two(Sales report)
     puts "Options - yes or no"
     puts "\n"
     @update_input = gets.strip 
-    
+
  
   end
 
@@ -97,7 +124,7 @@ Problems statements- two(Sales report)
      if input_user != 0
          @units_sold[i] = input_user
       else
-       puts "ERROR ".light_red.on_black + " :Invalid input, add integer only"
+       puts "Invalid input:,".light_red.on_black + " add integer only"
        .light_red.on_black
       next 
      end
@@ -110,6 +137,8 @@ Problems statements- two(Sales report)
     
     puts "                     Updated Inventory\n "\
           "                  ----------------------"
+   
+
     q=0
     while q < @name.length
       @updated_quantity[q] = (@quantity[q] - @units_sold[q])
@@ -131,10 +160,13 @@ Problems statements- two(Sales report)
       :rows => rows, :title => " Inventory Check ".light_blue.on_black
      
     puts table
+
+    
   end
 
  
   def regular_daily_update
+
     
 
     q=0
@@ -159,10 +191,11 @@ Problems statements- two(Sales report)
      :rows => rows, :title => " Inventory Check ".light_blue.on_black
     
    puts table
-
-
-
   end
+
+  # def make_table(array)
+   
+  # end
 
   
  end
