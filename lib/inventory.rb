@@ -1,17 +1,40 @@
 require_relative './inventory/items'
-require_relative './inventory/entry'
+require_relative './inventory/intro'
 require 'colorize'
  
 intro = Intro.new
 item= Item.new
 puts intro.intro_message
-puts item.display_list
-puts intro.inventory_options
-# intro.intro_input = gets.strip.to_i
 
-# puts "To get the reorder quantity, add sold units for each item"
-# # puts item.add_sold_units
-# puts item.get_reorder_quantity
+
+
+loop do
+  
+  puts intro.inventory_options
+  intro.intro_input = gets.strip.to_i
+  puts "\n"
+
+  if intro.intro_input == 1 
+     item.display_list
+  elsif intro.intro_input == 2  
+      update_current_inventory 
+   
+    elsif intro.intro_input == 3 
+        reorder_level
+    # elsif intro.intro_input == 4 
+    #    Options.regular_updates_of_inventory
+    # elsif intro.intro_input == 4 && options_array.include?(2) == false
+    #     puts "\n"
+    #    Options.update_current_inventory 
+     elsif intro.intro_input == 5
+       revenue
+
+   end
+end
+
+
+
+
 
 
 
@@ -43,24 +66,5 @@ puts intro.inventory_options
 
 
 
-# loop do
-# puts item.add_sold_units  
-# puts item.regular_daily_update
-# end
-
-
-
-
-
-# puts Inventory.display_list
-
-# puts Inventory.add_sold_units
-# puts Inventory.quantity_update
-
-
-# loop do 
-# puts Inventory.update_quantity(Inventory.add_sold_units)
-# end
-# puts regular_quantity_update(Inventory.update_quantity(Inventory.add_sold_units))
 
 

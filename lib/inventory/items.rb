@@ -34,7 +34,7 @@ Problems statements- two(Sales report)
   
   class Item
     attr_accessor :name, :price, :quantity, :units_sold, :updated_quantity, 
-    :update_input, :reorder_quantity
+    :update_input, :reorder_quantity, :first_day_units_sold
 
    def initialize
      @name = ["scented_candles", "greeting_cards", "wall_clocks", 
@@ -42,6 +42,7 @@ Problems statements- two(Sales report)
       "Jigsaw_puzzle_box", "souvenir_mugs", "novels"]
       @price = [15, 10, 50, 18, 70, 150, 65, 78, 25, 20]
       @quantity = [65, 100, 20, 30, 20, 22, 25, 15, 30, 50]
+      @first_day_units_sold = [2, 7, 2, 1, 2, 6, 10, 2, 2, 1]
       @reorder_quantity = []
       @units_sold = []
       @updated_quantity = []
@@ -49,37 +50,38 @@ Problems statements- two(Sales report)
     
    
    
-  # def get_reorder_quantity
-  #   puts "To get the reorder quantity, add sold units for each item"
-  #   i=0
-  #   average_lead_time = [10, 10, 20, 15, 30, 24, 10, 20, 15, 23] # in days
-  #   average_daily_units_sold = [4, 14, 1, 3, 5, 3, 1, 9, 4, 5, 6]
-  #   while i < @name.length
-  #      @reorder_quantity[i] =  average_daily_units_sold[i] * average_lead_time[i]
-  #     i+=1
-  #   end
-  #   rows = []
-  #    i=0
-  #    while i < @name.length
-  #       rows << [@name[i].capitalize, @price[i], @quantity[i], 
-  #       average_daily_units_sold[i], @reorder_quantity[i]]
-  #       rows << :separator 
-  #       i+=1
-  #     end
+  def get_reorder_level
+  
+    i=0
+    average_lead_time = [10, 10, 20, 15, 30, 24, 10, 20, 15, 23] # in days
+    average_daily_units_sold = [4, 14, 1, 3, 5, 3, 10, 4, 5, 6]
+    while i < @name.length
+       @reorder_quantity[i] =  average_daily_units_sold[i] * average_lead_time[i]
+      i+=1
+    end
+    rows = []
+     i=0
+     while i < @name.length
+        rows << [@name[i].capitalize, @price[i], @quantity[i],
+        average_daily_units_sold[i], @reorder_quantity[i]]
+        rows << :separator 
+        i+=1
+      end
    
-  #    table = Terminal::Table.new :headings => ['Items'.light_green, 'Price(AUD$)'
-  #     .light_green, "Quantity".light_green, "Average Daily Units Sold".light_green, 
-  #       "Reorder Quantity".light_green], 
-  #     :rows => rows, :title => " Inventory Check ".light_blue.on_black
-     
-  #   puts table
+     table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
+      .light_green, 'Initial Quantity'.light_green, "Average Daily Units Sold".light_green, 
+        "Optimal Reorder Quantity".light_green], 
+      :rows => rows, :title => " Inventory Check ".light_blue.on_black
+      table.align_column(2, :center)
+      table.align_column(3, :center)
+    puts table
 
-  # end
+  end
   
 
   def display_list
-    puts " Shop's Current Inventory   \n"\
-         "-------------------------"
+    puts " Shop's Current Inventory (beginning of month)  \n"\
+         "-----------------------------------------------"
     
     time = Time.new
     rows = []
@@ -91,11 +93,11 @@ Problems statements- two(Sales report)
       i+=1
      end
  
-    table = Terminal::Table.new :headings => ['Items'.light_green, 'Price(AUD$)'
-     .light_green, "Quantity".light_green], 
+    table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
+     .light_green, "Initial Quantity".light_green], 
     :rows => rows, :title => " Inventory Check"
     .light_blue.on_black
-    return table
+    puts table
 
   end
 
@@ -120,14 +122,14 @@ Problems statements- two(Sales report)
                          "Add no.of units of #{@name[i]} sold \n"\
                          "----------------------------------------"
      puts units_sold_prompt.light_cyan
-     input_user = gets.strip.to_i
-     if input_user != 0
-         @units_sold[i] = input_user
-      else
-       puts "Invalid input:,".light_red.on_black + " add integer only"
+     input_user = gets.strip
+      if input_user =~ /[A-Z]/  ||  input_user =~ /[a-z]/ || input_user =~ /\-/ || input_user.empty? == true
+       puts "Invalid input: ".light_red.on_black + "add positive integer only"
        .light_red.on_black
-      next 
-     end
+       next
+      elsif input_user =~ /[0-9]/ 
+        @units_sold[i] = input_user.to_i
+      end
       i+=1
     end
   end
@@ -135,13 +137,13 @@ Problems statements- two(Sales report)
 
   def quantity_update
     
-    puts "                     Updated Inventory\n "\
-          "                  ----------------------"
+    puts "                     Updated Current Inventory\n "\
+          "                  -----------------------------"
    
-
+   
     q=0
     while q < @name.length
-      @updated_quantity[q] = (@quantity[q] - @units_sold[q])
+      @updated_quantity[q] = @quantity[q] - @units_sold[q]
     q+=1
     end
 
@@ -155,52 +157,109 @@ Problems statements- two(Sales report)
         i+=1
       end
    
-     table = Terminal::Table.new :headings => ['Items'.light_green, 'Price(AUD$)'
+     table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
       .light_green, "Quantity".light_green, "Units_sold".light_green], 
       :rows => rows, :title => " Inventory Check ".light_blue.on_black
      
     puts table
-
+  return @updated_quantity
     
   end
-
  
+
   def regular_daily_update
-
-    
-
-    q=0
-
- 
+  
+   q=0
     while q < @name.length
-      @updated_quantity[q] = (updated_quantity[q] - @units_sold[q])
-    q+=1
+      @updated_quantity[q] = @updated_quantity[q] - @units_sold[q]
+     q+=1
     end
 
     rows = []
     i=0
     while i < @name.length
        rows << [@name[i].capitalize, @price[i], @updated_quantity[i], 
-       @units_sold[i]]
+       @units_sold[i], @reorder_quantity[i]]
        rows << :separator 
        i+=1
-     end
+    end
   
     table = Terminal::Table.new :headings => ['Items'.light_green, 'Price(AUD$)'
-     .light_green, "Quantity".light_green, "Units_sold".light_green], 
+     .light_green, "Quantity".light_green, "Units_sold".light_green, 
+     "Optimal Reorder Quantity".light_green], 
      :rows => rows, :title => " Inventory Check ".light_blue.on_black
     
-   puts table
+    puts table
   end
 
-  # def make_table(array)
-   
-  # end
+  def revenue_made
+
+
+    # cost_per_item = [3.78, 3.5, 45.8, 8.7, 55.2, 89.6, 38, 62, 12, 10]
+    sales = []
+    q = 0
+    while q < @name.length
+      sales[q] =  @units_sold[q] * @price[q]
+     q+=1
+    end
+    rows = []
+    i=0
+    while i < @name.length
+       rows << [@name[i].capitalize, @price[i], @updated_quantity[i], 
+       @units_sold[i], sales[i] ]
+       rows << :separator 
+       i+=1
+    end
+  
+    table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
+     .light_green, "Quantity".light_green, "Units_sold".light_green, 
+     "Sales(AUD$)".light_green], 
+     :rows => rows, :title => " Inventory Check ".light_blue.on_black
+    
+    puts table
+  end
 
   
  end
 
 # end
+
+# module Options
+
+
+
+  def update_current_inventory
+    item = Item.new
+    item.add_sold_units
+    item.quantity_update
+  
+  end
+
+
+  def reorder_level
+    item= Item.new
+    item.get_reorder_level
+  end
+
+  # def Options.regular_updates_of_inventory
+  #   item= Item.new
+  #   puts "\n"
+  #   puts "             ------"
+  #   puts "              Day 2"
+  #   puts "             ------"
+  #   item.previous_day_stock
+  #   item.add_sold_units
+  #   item.optimum_reorder_levels
+  #   item.regular_daily_update
+  # end
+  def revenue
+    item = Item.new
+    item.add_sold_units
+    item.quantity_update
+   item.revenue_made
+  end
+# end
+
 
 
 

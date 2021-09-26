@@ -7,24 +7,34 @@ class Intro
 "| | | |___ |    |    |  | |\\/| |___     |  |  |      | |\\ | |  | |___ |\\ |  |  |  | |__/  \\_/     |__| |__] |__]  /\n"\
 "|_|_| |___ |___ |___ |__| |  | |___     |  |__|      | | \\|  \\/  |___ | \\|  |  |__| | \\    |      |  | |    |    .\n"\
 "\n".light_blue
-   @options = []
+  @intro_description = "You will be prompted to follow steps in an order to 
+  complete the update of inventory"
+   @options = [
+     "Display list of items with price and initial quantity at the 
+   beginning of the month",
+    "Update Quantity",
+    "Display optimal Reorder quantity level", 
+     "Regularly Update Inventory",
+     "Calculate Sales"
+    ]
    @intro_input = 0
   end    
   
   def inventory_options
-    puts "Choose one option out of the given below: 0, 1, 2 "
-    @options << "Add sold units and update Current Inventory for the same day"
-    @options << "Obtain reorder quantity"
-    @options << "Calculate revenue for the same day"
-    @options << "Add sold units and update inventory for the next day"
+    puts "Choose one option out of the given below: 0, 1, 2"
+
     i = 0
     while i < @options.length
-     puts "#{i}. " +  @options[i]
+     puts "#{i + 1}. " +  @options[i]
      i+=1
     end
+
   end
 
 
 
 end
+
+
+
 
