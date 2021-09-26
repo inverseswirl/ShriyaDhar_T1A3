@@ -14,14 +14,14 @@ class Intro
    beginning of the month",
     "Update Quantity",
     "Display optimal Reorder quantity level", 
-     "Regularly Update Inventory",
+     "Regularly Update Inventory(ABC Analysis)",
      "Calculate Sales"
     ]
    @intro_input = 0
   end    
   
   def inventory_options
-    puts "Choose one option out of the given below: 0, 1, 2"
+    puts "Choose one option out of these: 0, 1, 2, 3, 4, 5"
 
     i = 0
     while i < @options.length

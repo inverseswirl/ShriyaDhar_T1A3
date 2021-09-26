@@ -21,13 +21,13 @@ loop do
    
     elsif intro.intro_input == 3 
         reorder_level
-    # elsif intro.intro_input == 4 
-    #    Options.regular_updates_of_inventory
+    elsif intro.intro_input == 4 
+       regular_updates_of_inventory
     # elsif intro.intro_input == 4 && options_array.include?(2) == false
     #     puts "\n"
     #    Options.update_current_inventory 
      elsif intro.intro_input == 5
-       revenue
+      sales
 
    end
 end
@@ -39,22 +39,8 @@ end
 
 
 
-# begin
-#   loop do
-#     item.message_for_item_update 
-#     if item.update_input == "yes" 
-#         puts item.add_sold_units  
-#         puts item.quantity_update
-#         break
-#     elsif item.update_input == "no" 
-#         break
-#         else 
-#         puts "Incorrect Input: enter - yes or no\n".red.on_black + "-------------------------\n".light_cyan
-#     end
-#   end
-# rescue
-#     puts "Error on line 11 on /inventory.rb"
-# end
+
+
 
 
 
