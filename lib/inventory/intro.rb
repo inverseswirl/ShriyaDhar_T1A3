@@ -9,16 +9,13 @@ class Intro
 "| | | |___ |    |    |  | |\\/| |___     |  |  |      | |\\ | |  | |___ |\\ |  |  |  | |__/  \\_/     |__| |__] |__]  /\n"\
 "|_|_| |___ |___ |___ |__| |  | |___     |  |__|      | | \\|  \\/  |___ | \\|  |  |__| | \\    |      |  | |    |    .\n"\
 "\n".light_blue
-    @intro_description = "You will be prompted to follow steps in an order to 
-      complete the update of inventory"
+    # @intro_description = "Hi, there! WelcomeYou will be prompted to follow steps in an order to 
+    #   complete the update of inventory"
     @options = [
-     "Display list of items with price and initial quantity at the 
-   beginning of the month",
-    "Update Quantity",
-    "Display Reorder levels & items low in stock", 
-    "Replenish low stock",
-     "Regularly Update Inventory(ABC Analysis)",
-     "Calculate Sales"
+     "Display Inventory Stock", "Update Quantity", 
+     "Display Reorder levels & items low in stock", 
+     "Replenish low stock", "Regularly Update Inventory(ABC Analysis)",
+     "Calculate Sales", "Exit the app"
     ]
    @intro_input = 0
   end    

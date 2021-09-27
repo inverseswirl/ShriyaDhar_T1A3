@@ -221,12 +221,15 @@ Problems statements- two(Sales report)
   def sales
     # cost_per_item = [3.78, 3.5, 45.8, 8.7, 55.2, 89.6, 38, 62, 12, 10]
     @sales = []
-    
+
     q = 0
     while q < @name.length
       @sales[q] =  @units_sold[q] * @price[q]
      q+=1
     end
+    i=0
+    @quantity = quantity_update
+
     rows = []
     i=0
     while i < @name.length
@@ -318,8 +321,8 @@ end
   def sales
     item = Item.new
     item.add_sold_units
-    item.quantity_update
     item.sales
+    
   end
 # end
 
