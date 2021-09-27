@@ -18,14 +18,17 @@ loop do
   puts "\n"
 
   if intro.intro_input == 1 
-     display_initial_stock
+     display_stock
+     
   elsif intro.intro_input == 2  
-     update_current_inventory 
+     update_inventory_stock
   elsif intro.intro_input == 3 
      reorder_level
-  elsif intro.intro_input == 4 
+  elsif intro.intro_input == 4
+      
+  elsif intro.intro_input == 5 
      regular_updates_of_inventory
-  elsif intro.intro_input == 5
+  elsif intro.intro_input == 6
      sales 
   end
 end

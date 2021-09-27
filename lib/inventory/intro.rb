@@ -15,7 +15,8 @@ class Intro
      "Display list of items with price and initial quantity at the 
    beginning of the month",
     "Update Quantity",
-    "Display current reorder level and items low in stock", 
+    "Display Reorder levels & items low in stock", 
+    "Replenish low stock",
      "Regularly Update Inventory(ABC Analysis)",
      "Calculate Sales"
     ]

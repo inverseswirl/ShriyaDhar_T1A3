@@ -79,39 +79,42 @@ Problems statements- two(Sales report)
   end
 
   def display_reorder_level
-    i=0
-    average_lead_time = [10, 10, 20, 15, 30, 24, 10, 20, 15, 23] # in days
-    average_daily_units_sold = [4, 14, 1, 3, 5, 3, 10, 4, 5, 6]
-    while i < @name.length
-       @reorder_quantity[i] =  average_daily_units_sold[i] * average_lead_time[i]
-      i+=1
-    end  #get reorder quantity
-
+    
+    @reorder_quantity = find_reorder_level
     @notification = item_notification
   
     rows = []
      i=0
      while i < @name.length
         rows << [@name[i].capitalize, @price[i], @quantity[i],
-        average_daily_units_sold[i], @reorder_quantity[i], @notification[i]]
+         @reorder_quantity[i], @notification[i]]
         rows << :separator 
         i+=1
       end  
      table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
-      .light_green, 'Initial Quantity'.light_green, "Average Daily Units Sold".light_green, 
+      .light_green, 'Initial Quantity'.light_green, 
         "Optimal Reorder Level".light_green, "Notification".light_green], 
-      :rows => rows, :title => " Reorder level".light_blue.on_black
+      :rows => rows, :title => " View Reorder levels".light_blue.on_black
       
       table.align_column(1, :center)
       table.align_column(2, :center)
       table.align_column(3, :center)
-      table.align_column(4, :center)
     puts table
   end
 
+  # def replenish_stock_initial
+  #   @reorder_quantity = find_reorder_level
+  #   @reorder_quantity.each {|n| n + 10 }
+  #   unless i >= @name.length
+  #   @quantity[i] = @reorder_quantity[i]
+  #   p "check"
+  #   end
+  #   return @updated_quantity
+  # end
 
-  def display_list(arg)
-    arg = @reorder_quantity
+
+  def display_list
+    @reorder_quantity = find_reorder_level
     puts " Shop's Current Inventory \n"\
          "------------------------------"
     rows = []
@@ -138,7 +141,6 @@ Problems statements- two(Sales report)
 
  #adds sold units......
   def add_sold_units
-    rows = []
     i=0
     while i < @name.length
      units_sold_prompt = "----------------------------------------\n"\
@@ -146,14 +148,14 @@ Problems statements- two(Sales report)
                          "----------------------------------------"
      puts units_sold_prompt.light_cyan
      input_user = gets.strip
-      if input_user =~ /[A-Z]/  ||  input_user =~ /[a-z]/ || input_user =~ /\-/ || input_user.empty? == true
+     if input_user =~ /[A-Z]/  ||  input_user =~ /[a-z]/ || input_user =~ /\-/ || input_user.empty? == true
         puts "Invalid input: ".light_red.on_black + "add positive integer only"
        .light_red.on_black
         next
-      elsif input_user =~ /[0-9]/ 
+     elsif input_user =~ /[0-9]/ 
         @units_sold[i] = input_user.to_i
-      end
-      i+=1
+     end
+     i+=1
     end
   end
 
@@ -161,39 +163,39 @@ Problems statements- two(Sales report)
   def quantity_update
     puts "                     Updated Current Inventory\n "\
           "                  -----------------------------"
-    
-     @reorder_quantity = find_reorder_level
+
     q=0
     while q < @name.length
-       @updated_quantity[q] = @quantity[q] - @units_sold[q]
+       @quantity[q] = @quantity[q] - @units_sold[q]
       q+=1
     end
+
     rows = []
      i=0
      while i < @name.length
-        rows << [@name[i].capitalize, @price[i], @updated_quantity[i], 
-        @units_sold[i],@reorder_quantity[i]]
+        rows << [@name[i].capitalize, @price[i], @quantity[i], 
+        @units_sold[i]]
         rows << :separator 
         i+=1
       end
     table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
-      .light_green, "Quantity".light_green, "Units_sold".light_green, 
-      "Optimal Reorder Quantity".light_green], 
+      .light_green, "Quantity".light_green, "Units_sold".light_green], 
       :rows => rows, :title => " Quantity Update ".light_blue.on_black
-    puts table
-    return @updated_quantity
+   puts table
+      return @quantity
   end
  
  
   def regular_daily_update
     @reorder_quantity = find_reorder_level
     @notification = item_notification
-
+    @quantity = 
    q=0
     while q < @name.length
       @updated_quantity[q] = @updated_quantity[q] - @units_sold[q]
      q+=1
     end
+   
 
     rows = []
     i=0
@@ -210,12 +212,16 @@ Problems statements- two(Sales report)
      "Optimal reorder quantity".light_green], 
      :rows => rows, :title => " Inventory".light_blue.on_black
     puts table
-    
+    # puts "Do you wish to Replenish the stock?"
+    #   replenish_input = gets.strip
+    #   if replenish_input == "yes" 
+
   end
 
   def sales
     # cost_per_item = [3.78, 3.5, 45.8, 8.7, 55.2, 89.6, 38, 62, 12, 10]
     @sales = []
+    
     q = 0
     while q < @name.length
       @sales[q] =  @units_sold[q] * @price[q]
@@ -224,7 +230,7 @@ Problems statements- two(Sales report)
     rows = []
     i=0
     while i < @name.length
-       rows << [@name[i].capitalize, @price[i], @updated_quantity[i], 
+       rows << [@name[i].capitalize, @price[i], @quantity[i], 
        @units_sold[i], @sales[i] ]
        rows << :separator 
        i+=1
@@ -238,23 +244,7 @@ Problems statements- two(Sales report)
     puts table
   end
 
-  def make_display_tables
-    rows = []
-    i=0
-    while i < @name.length
-       rows << [@name[i].capitalize, @price[i], @updated_quantity[i], 
-       @units_sold[i], @sales[i] ]
-       rows << :separator 
-       i+=1
-    end
-  
-    table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
-     .light_green, "Quantity".light_green, "Units_sold".light_green, 
-     "Sales(AUD$)".light_green], 
-     :rows => rows, :title => " Sales Check ".light_blue.on_black
-    
-    puts table
-  end
+ 
 
   end
 
@@ -276,20 +266,26 @@ Problems statements- two(Sales report)
 
 
 # module Options
-def display_initial_stock
+def display_stock
   item = Item.new
-  item.display_list(item.find_reorder_level)
+  item.display_list
 
 
 end
 
 
-  def update_current_inventory
+  def update_inventory_stock
     item = Item.new
     item.add_sold_units
     item.quantity_update
-  end
+  
 
+  end
+def test_check
+  item=Item.new
+  item.add_sold_units
+  item.quantity_update
+end
 
   def reorder_level
     item= Item.new
@@ -298,6 +294,7 @@ end
 
   def regular_updates_of_inventory
     item= Item.new
+    item.display_reorder_level
     item.add_sold_units
     item.quantity_update
     item.message_exit_after_update
