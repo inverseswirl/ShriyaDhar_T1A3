@@ -148,7 +148,8 @@ Problems statements- two(Sales report)
                          "----------------------------------------"
      puts units_sold_prompt.light_cyan
      input_user = gets.strip
-     if input_user =~ /[A-Z]/  ||  input_user =~ /[a-z]/ || input_user =~ /\-/ || input_user.empty? == true
+     if input_user =~ /\D/ || input_user.empty? == true || input_user.to_i > 50 
+     #to limit input of too many digits beyond the maximum selling units, no characters and alphabets
         puts "Invalid input: ".light_red.on_black + "add positive integer only"
        .light_red.on_black
         next

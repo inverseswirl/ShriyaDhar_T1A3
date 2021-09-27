@@ -28,12 +28,23 @@ display stock list, update inventory, get sales report and many other helpful ta
     puts "Choose one option out of these: 1, 2, 3, 4, 5"
     i = 0
     while i < @options.length
-     puts "#{i + 1}. " +  @options[i]
+     puts "#{i + 1}: " +  @options[i]
      i+=1
     end
+  end
+  def input
+    print "Enter the choice: "
+    @intro_input = gets.strip.to_i
+    puts "--------------------------\n"
   end
 end
 
 
+# class Exit 
+#   def initialize
 
+#   end
+
+
+# end
 

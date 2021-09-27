@@ -14,8 +14,7 @@ puts intro.intro_description.light_blue
 
 loop do
   puts intro.inventory_options
-  intro.intro_input = gets.strip.to_i
-  puts "\n"
+  intro.input
 
   if intro.intro_input == 1 
      display_stock
