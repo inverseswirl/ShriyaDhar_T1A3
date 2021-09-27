@@ -2,15 +2,19 @@ require 'colorize'
 require 'tty-box'
 
 class Intro
-  attr_accessor :intro_message, :options, :intro_input
+  attr_accessor :intro_description, :intro_message, :options, :intro_input
   def initialize
     @intro_message = "\n"\
 "_ _ _ ____ _    ____ ____ _  _ ____    ___ ____      _ _  _ _  _ ____ _  _ ___ ____ ____ _   _    ____ ___  ___    /\n"\
 "| | | |___ |    |    |  | |\\/| |___     |  |  |      | |\\ | |  | |___ |\\ |  |  |  | |__/  \\_/     |__| |__] |__]  /\n"\
 "|_|_| |___ |___ |___ |__| |  | |___     |  |__|      | | \\|  \\/  |___ | \\|  |  |__| | \\    |      |  | |    |    .\n"\
 "\n".light_blue
-    # @intro_description = "Hi, there! WelcomeYou will be prompted to follow steps in an order to 
-    #   complete the update of inventory"
+    
+   @intro_description = "\n"\
+    "  Hi, there! Welcome to the Inventory app!
+This app will help an owner of a small Gift shop to manage his inventory stock,
+display stock list, update inventory, get sales report and many other helpful tasks.\n"\
+"-------------------------------------------------------------------------------------\n".strip
     @options = [
      "Display Inventory Stock", "Update Quantity", 
      "Display Reorder levels & items low in stock", 

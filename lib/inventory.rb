@@ -6,7 +6,7 @@ intro = Intro.new
 item= Item.new
 box = TTY::Box
 puts box.frame intro.intro_message.light_cyan, height: 8, border: :thick
-
+puts intro.intro_description.light_blue
 
 
 
