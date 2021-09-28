@@ -12,25 +12,27 @@ puts intro.intro_description.magenta
 
 
 
+
 loop do
   puts "\n"
   puts intro.inventory_options
   intro.input
-  system "clear"
 
-  if intro.intro_input == 1 
-     display_stock
-   elsif intro.intro_input == 2  
-    update_inventory_stock
-   elsif intro.intro_input == 3
-        # item.display_list
-        item.replenish_stock
-   elsif intro.intro_input == 4 
-       regular_updates_of_inventory
-   elsif intro.intro_input == 5
-       sales 
-   elsif intro.intro_input == 6
-       break 
+ case intro.intro_input
+ when 1
+    item.display_list(item.quantity)
+ when 2
+    item.add_sold_units
+    item.quantity_update
+ when 3
+    item.replenish_stock(item.quantity)
+when 4
+     intro.intro_input == 4 
+when 5
+        item.add_sold_units
+        item.sales(item.quantity, item.units_sold)
+when 6
+    break 
    end
 end
      

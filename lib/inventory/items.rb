@@ -31,7 +31,7 @@ require 'tty-prompt'
   
   class Item
     attr_accessor :name, :price, :quantity, :units_sold, :updated_quantity, 
-    :update_input, :reorder_level, :first_day_units_sold, :notification, 
+    :update_input, :reorder_level, :notification, :total_sales
     :stock_in
   
     def initialize
@@ -40,11 +40,11 @@ require 'tty-prompt'
       "Jigsaw_puzzle_box", "souvenir_mugs", "novels"]
       @price = [15, 10, 50, 18, 70, 150, 65, 78, 25, 20]
       @quantity = [104, 200, 20, 30, 20, 22, 25, 15, 30, 50]
-      @first_day_units_sold = [2, 7, 2, 1, 2, 6, 10, 2, 2, 1]
       @reorder_level = []
       @units_sold = []
       @updated_quantity = []
       @notification = []
+      @total_sales = []
     end
     
    
@@ -76,48 +76,48 @@ require 'tty-prompt'
 
 
 
-  def replenish_stock
+  def replenish_stock(quantity)
+    quantity = @quantity
     @reorder_level = find_reorder_level
-    @stock_in= []
-    @stock_in = @reorder_level.map! {|n| n + 10}  #assuming 10 as safety stock
- 
+    @notification = item_notification
+    # @notification.delete("Stock full")
+    @stock_in = []
     count=0
     until count > @name.length - 1
-       @quantity[count] =  @quantity[count] + @stock_in[count] 
-      count+=1
+       @stock_in[count] =  @reorder_level[count] + 10
+         @quantity[count] =  @quantity[count] + @stock_in[count]  #assume 10units saftey stock for each item
+       count+=1
     end
-     
-     @notification = item_notification
+    @notification = item_notification
      @notification
-     p @quantity
-     p    @stock_in
+  
     rows = []
       i = 0
        while i < @name.length
-        p @stock_in[i]
-          rows << [@name[i].capitalize, @price[i], @quantity[i],
-          @stock_in[i],@reorder_level[i], @notification[i]]
+          rows << [@name[i].capitalize, @price[i], @quantity[i],@stock_in[i],
+          @reorder_level[i], @notification[i]]
           rows << :separator 
           i+=1
         end  
        table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
-        .light_green, 'Quantity'.light_green, "Stock In".light_green ,
-          "Optimal Reorder Level".light_green,"Notification".light_green], 
+        .light_green, 'Updated Quantity'.light_green,"Stock In".light_green, 
+        "Optimal Reorder Level".light_green,
+        "Notification".light_green], 
         :rows => rows, :title => " View Replenished stock".light_blue.on_black
         
         table.align_column(1, :center)
         table.align_column(2, :center)
         table.align_column(3, :center)
+        table.align_column(4, :center)
       puts table
-
+      return @quantity
   end
 
 
-  def display_list
+  def display_list(quantity)
     @reorder_level = find_reorder_level
     @notification = item_notification
-    puts " Shop's Current Inventory \n"\
-         "------------------------------"
+    quantity = @quantity
     rows = []
     i=0
     while i < @name.length
@@ -130,8 +130,8 @@ require 'tty-prompt'
     table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
      .light_green, "Initial Quantity".light_green, "Optimum Reorder level".light_green,
      "Notification".light_green], 
-    :rows => rows, :title => " Inventory Check"
-    .light_blue.on_black
+    :rows => rows, :title => " Inventory"
+    .blue
     puts table
   end
 
@@ -151,11 +151,14 @@ require 'tty-prompt'
      print units_sold_prompt
      input_user = gets.strip
      puts "\n"
-     if input_user =~ /\D/ || input_user.empty? == true || input_user.to_i > 50 
-     #to limit input of too many digits beyond the maximum selling units, no characters and alphabets
+     if input_user =~ /\D/ || input_user.empty? == true 
+     #to limit input of too many digits beyond the maximum selling units= 30, no characters and alphabets
         puts " Invalid input: ".light_red.on_black + "add positive integer only"
        .light_red.on_black
         next
+     elsif input_user.to_i > 100
+      puts "Maximum limit 100,try smaller range".light_red.on_black
+      next
      elsif input_user =~ /[0-9]/ 
         @units_sold[i] = input_user.to_i
      end
@@ -183,7 +186,7 @@ require 'tty-prompt'
     table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
       .light_green, "Quantity".light_green, "Units_sold".light_green], 
       :rows => rows, :title => " Quantity Update ".light_blue.on_black
-   puts table
+     puts  table
       return @quantity
   end
  
@@ -217,28 +220,49 @@ require 'tty-prompt'
 
   end
 
-  def sales
-    @sales = []
-    q = 0
-    while q < @name.length
-      @sales[q] =  @units_sold[q] * @price[q]
-     q+=1
-    end
-    i=0
-    @quantity = quantity_update
 
-    rows = []
+  
+     
+
+
+  def sales(quantity,units_sold)
+    quantity = @quantity
+    units_sold = @units_sold
+     t = 0
+    while t < @name.length
+      @quantity[t] = @quantity[t] - @units_sold[t]
+     t+=1
+   end
+  
+     @sales = []
+     q =0
+     while q < @name.length
+      @sales[q] =  @units_sold[q] * @price[q]
+      q+=1
+     end
+
+       if @total_sales.length == 0
+           (0..9).each do |n|
+             @total_sales << @sales[n]
+            end
+        else
+          (0..9).each do |n|
+            @total_sales[n] = @total_sales[n] + @sales[n]
+          end
+        end
+
+   rows = []
     i=0
     while i < @name.length
        rows << [@name[i].capitalize, @price[i], @quantity[i], 
-       @units_sold[i], @sales[i] ]
+       @units_sold[i], @sales[i], @total_sales[i]]
        rows << :separator 
        i+=1
     end
   
     table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
      .light_green, "Quantity".light_green, "Units_sold".light_green, 
-     "Sales(AUD$)".light_green], 
+     "Sales(AUD$)".light_green, "Cumulative Sales".light_green], 
      :rows => rows, :title => " Sales Check ".light_blue.on_black
     
     puts table
@@ -266,24 +290,15 @@ require 'tty-prompt'
 
 
 # module Options
-def display_stock
-  item = Item.new
-  item.display_list
 
 
-end
 
 
-def update_inventory_stock
-  item = Item.new
-  item.add_sold_units
-  item.quantity_update
-end
+
 
 
   def regular_updates_of_inventory
     item= Item.new
-    item.display_reorder_level
     item.add_sold_units
     item.quantity_update
     item.message_exit_after_update

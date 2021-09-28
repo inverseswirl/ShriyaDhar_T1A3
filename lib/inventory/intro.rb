@@ -17,7 +17,7 @@ This app will help an owner of a small Gift shop to manage his inventory stock,
 display stock list, update inventory, get sales report and many other helpful tasks.\n"\
 "-------------------------------------------------------------------------------------\n"
     @options = [
-     "Display Inventory Stock", "Add Sold units & Update Stock",  
+     "Display Inventory Stock", "Add Sold units & Update Quantity",  
      "Replenish low stock", "Regularly Update Inventory(Analysis)",
      "Calculate Sales", "Exit the app"
     ]
@@ -25,7 +25,7 @@ display stock list, update inventory, get sales report and many other helpful ta
   end    
   
   def inventory_options
-    puts "Choose One Option out of these: 1, 2, 3, 4, 5".blue
+    puts "Choose One Option out of these:".blue
     i = 0
     while i < @options.length
      puts "#{i + 1}: ".light_magenta +  @options[i].yellow
