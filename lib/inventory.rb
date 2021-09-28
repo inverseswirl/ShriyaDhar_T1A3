@@ -11,40 +11,33 @@ puts intro.intro_description.magenta
 
 
 
-
-
 loop do
   puts "\n"
   puts intro.inventory_options
   intro.input
 
- case intro.intro_input
- when 1
+  case intro.intro_input
+  when 1
     item.display_list(item.quantity)
- when 2
+  when 2
     item.add_sold_units
     item.quantity_update
- when 3
-    item.replenish_stock(item.quantity,item.item_notification)
-when 4
-     intro.intro_input == 4 
-when 5
-        item.add_sold_units
-        item.sales(item.quantity, item.units_sold)
-when 6
+  when 3
+    item.replenish_stock(item.quantity)
+  when 4
+    intro.intro_input == 4 
+  when 5
+    if item.units_sold.empty? == true
+      puts "Please choose Add Sold units before calculating sales".green.on_black
+    else
+     item.sales(item.quantity, item.units_sold)
+    end
+  when 6
     break 
    end
 end
      
 
-class Item
-
-end
-
-
-class Intro
-    
-end
 
 
 

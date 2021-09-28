@@ -61,14 +61,15 @@ require 'tty-prompt'
   end
 
   def item_notification
-    find_reorder_level
-    0.upto(@name.length - 1) do |n|
+    @reorder_level = find_reorder_level
+
+    (0..9).each do |n|
      if @quantity[n] < @reorder_level[n] 
-         @notification << "Very Low in stock".red.on_black
+         @notification[n] = "Very Low in stock"
      elsif  @quantity[n] == @reorder_level[n] 
-        @notification << "Reached reorder level".yellow
+        @notification[n] = "Reached reorder level"
      elsif quantity[n] > @reorder_level[n] 
-        @notification << "Stock full".light_green
+        @notification[n] = "Stock full"
      end
     end
     return @notification
@@ -76,35 +77,33 @@ require 'tty-prompt'
 
 
 
-  def replenish_stock(quantity,notification)
+  def replenish_stock(quantity)
     @quantity =  quantity 
-    @notification = notification 
     @reorder_level = find_reorder_level
-
+    @notification = item_notification
     @stock_in = []
 
+
     count=0
-    until count > @name.length - 1
+    until count > @name.length - 1 
        @stock_in[count] =  @reorder_level[count] + 10
        count+=1
     end
-
-    stock_full = true
-    for counter in (0..9) do
-        next if @notification[counter] == "Stock full"
+  
+    counter = 0
+    (0..9).each do |counter|
         if @notification[counter] != "Stock full"
-           @quantity[counter] =  @quantity[counter] + @stock_in[counter]  #assume 10units saftey stock for each item
+          @quantity[counter] =  @quantity[counter] + @stock_in[counter]  #assume 10units saftey stock for each item
         end
-           
-    end
-    # p @quantity
-    #     @notification = item_notification
-      
+      end   
+  
+     @notification = item_notification
+
+
     rows = []
       i = 0
        while i < @name.length
-        
-          rows << [@name[i].capitalize, @price[i], @quantity[i],@stock_in[i],
+        rows << [@name[i].capitalize, @price[i], @quantity[i],@stock_in[i],
           @reorder_level[i], @notification[i]]
           rows << :separator 
           i+=1
@@ -121,7 +120,7 @@ require 'tty-prompt'
         table.align_column(3, :center)
         table.align_column(4, :center)
       puts table
-    
+    return @stock_in
   end
 
 
@@ -188,7 +187,7 @@ require 'tty-prompt'
        @quantity[q] = @quantity[q] - @units_sold[q]
       q+=1
     end
-
+    @notification - item_notification
     rows = []
      i=0
      while i < @name.length
@@ -243,11 +242,7 @@ require 'tty-prompt'
   def sales(quantity,units_sold)
     @quantity = quantity 
     @units_sold =  units_sold 
-     t = 0
-    while t < @name.length
-      @quantity[t] = @quantity[t] - @units_sold[t]
-     t+=1
-   end
+ 
   
      @sales = []
      q =0
@@ -285,7 +280,7 @@ require 'tty-prompt'
 
  
 
-  end
+end
 
 # end
 
@@ -311,25 +306,25 @@ require 'tty-prompt'
 
 
 
-  def regular_updates_of_inventory
-    item= Item.new
-    item.add_sold_units
-    item.message_exit_after_update
+  # def regular_updates_of_inventory
+  #   item= Item.new
+  #   item.add_sold_units
+  #   item.message_exit_after_update
   
-    loop do 
-      if item.update_input == "yes" 
-        item.add_sold_units
-        item.regular_daily_update
-        item.message_exit_after_update
-      end
-      break item.update_input == "no" 
-      if item.update_input != "no" && item.update_input != "yes"
-        puts "Incorrect Input: enter - yes or no\n".red.on_black + "-------------------------\n".light_cyan
-      end
-      item.message_exit_after_update
-    end
-    #work in progress................
-  end
+  #   loop do 
+  #     if item.update_input == "yes" 
+  #       item.add_sold_units
+  #       item.regular_daily_update
+  #       item.message_exit_after_update
+  #     end
+  #     break item.update_input == "no" 
+  #     if item.update_input != "no" && item.update_input != "yes"
+  #       puts "Incorrect Input: enter - yes or no\n".red.on_black + "-------------------------\n".light_cyan
+  #     end
+  #     item.message_exit_after_update
+  #   end
+  #   #work in progress................
+  # end
   
 
 
