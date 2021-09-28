@@ -25,7 +25,7 @@ loop do
     item.add_sold_units
     item.quantity_update
  when 3
-    item.replenish_stock(item.quantity)
+    item.replenish_stock(item.quantity,item.item_notification)
 when 4
      intro.intro_input == 4 
 when 5
@@ -37,8 +37,14 @@ when 6
 end
      
 
-  
+class Item
 
+end
+
+
+class Intro
+    
+end
 
 
 

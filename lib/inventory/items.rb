@@ -76,29 +76,40 @@ require 'tty-prompt'
 
 
 
-  def replenish_stock(quantity)
-    quantity = @quantity
+  def replenish_stock(quantity,notification)
+    @quantity =  quantity 
+    @notification = notification 
     @reorder_level = find_reorder_level
-    @notification = item_notification
-    # @notification.delete("Stock full")
+
     @stock_in = []
+
     count=0
     until count > @name.length - 1
        @stock_in[count] =  @reorder_level[count] + 10
-         @quantity[count] =  @quantity[count] + @stock_in[count]  #assume 10units saftey stock for each item
        count+=1
     end
-    @notification = item_notification
-     @notification
-  
+
+    stock_full = true
+    for counter in (0..9) do
+        next if @notification[counter] == "Stock full"
+        if @notification[counter] != "Stock full"
+           @quantity[counter] =  @quantity[counter] + @stock_in[counter]  #assume 10units saftey stock for each item
+        end
+           
+    end
+    # p @quantity
+    #     @notification = item_notification
+      
     rows = []
       i = 0
        while i < @name.length
+        
           rows << [@name[i].capitalize, @price[i], @quantity[i],@stock_in[i],
           @reorder_level[i], @notification[i]]
           rows << :separator 
           i+=1
-        end  
+        end 
+
        table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
         .light_green, 'Updated Quantity'.light_green,"Stock In".light_green, 
         "Optimal Reorder Level".light_green,
@@ -110,14 +121,14 @@ require 'tty-prompt'
         table.align_column(3, :center)
         table.align_column(4, :center)
       puts table
-      return @quantity
+    
   end
 
 
   def display_list(quantity)
     @reorder_level = find_reorder_level
     @notification = item_notification
-    quantity = @quantity
+    @quantity =  quantity 
     rows = []
     i=0
     while i < @name.length
@@ -147,7 +158,8 @@ require 'tty-prompt'
     i=0
     while i < @name.length
      units_sold_prompt = "----------------------------------------\n"\
-                         "#{i + 1}. Add no. of #{@name[i]} sold : " 
+                         "#{i + 1}. Add no. of #{@name[i]} sold : "
+
      print units_sold_prompt
      input_user = gets.strip
      puts "\n"
@@ -169,6 +181,8 @@ require 'tty-prompt'
 
 
   def quantity_update
+    @reorder_level = find_reorder_level
+    @notification = item_notification
     q=0
     while q < @name.length
        @quantity[q] = @quantity[q] - @units_sold[q]
@@ -179,12 +193,13 @@ require 'tty-prompt'
      i=0
      while i < @name.length
         rows << [@name[i].capitalize, @price[i], @quantity[i], 
-        @units_sold[i]]
+        @units_sold[i], @reorder_level[i], notification[i]]
         rows << :separator 
         i+=1
       end
     table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
-      .light_green, "Quantity".light_green, "Units_sold".light_green], 
+      .light_green, "Quantity".light_green, "Units_sold".light_green, 
+    "Optimal Reorder level".light_green, "Notification".light_green], 
       :rows => rows, :title => " Quantity Update ".light_blue.on_black
      puts  table
       return @quantity
@@ -194,7 +209,7 @@ require 'tty-prompt'
   def regular_daily_update
     @reorder_level = find_reorder_level
     @notification = item_notification
-    @quantity = 
+
    q=0
     while q < @name.length
       @updated_quantity[q] = @updated_quantity[q] - @units_sold[q]
@@ -221,13 +236,13 @@ require 'tty-prompt'
   end
 
 
-  
+   
      
 
 
   def sales(quantity,units_sold)
-    quantity = @quantity
-    units_sold = @units_sold
+    @quantity = quantity 
+    @units_sold =  units_sold 
      t = 0
     while t < @name.length
       @quantity[t] = @quantity[t] - @units_sold[t]
@@ -289,7 +304,6 @@ require 'tty-prompt'
 
 
 
-# module Options
 
 
 
@@ -300,7 +314,6 @@ require 'tty-prompt'
   def regular_updates_of_inventory
     item= Item.new
     item.add_sold_units
-    item.quantity_update
     item.message_exit_after_update
   
     loop do 
@@ -315,17 +328,11 @@ require 'tty-prompt'
       end
       item.message_exit_after_update
     end
-    #work in progress
+    #work in progress................
   end
   
 
-  def sales
-    item = Item.new
-    item.add_sold_units
-    item.sales
-    
-  end
-# end
+
 
 
 

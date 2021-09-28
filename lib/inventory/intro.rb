@@ -18,7 +18,7 @@ display stock list, update inventory, get sales report and many other helpful ta
 "-------------------------------------------------------------------------------------\n"
     @options = [
      "Display Inventory Stock", "Add Sold units & Update Quantity",  
-     "Replenish low stock", "Regularly Update Inventory(Analysis)",
+     "Replenish low stock", "Top selling products",
      "Calculate Sales", "Exit the app"
     ]
    @intro_input = 0
