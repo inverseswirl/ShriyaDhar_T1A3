@@ -14,7 +14,7 @@ class Intro
    @intro_description = "\n"\
     "Hi, there! Welcome to the Inventory app!
 This app will help an owner of a small Gift shop to manage his inventory stock,
-display stock list, update inventory, get sales report and many other helpful tasks.\n"\
+display stock list, update inventory, calculate sales and many other helpful tasks.\n"\
 "-------------------------------------------------------------------------------------\n"
     @options = [
      "Display Inventory Stock", "Add Sold units & Update Quantity",  
@@ -40,11 +40,4 @@ display stock list, update inventory, get sales report and many other helpful ta
 end
 
 
-# class Exit 
-#   def initialize
-
-#   end
-
-
-# end
 

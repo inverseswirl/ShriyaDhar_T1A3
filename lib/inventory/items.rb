@@ -23,12 +23,12 @@ require 'tty-prompt'
 
 
 
-
-
 #Module inventory for first Feature........
 # module Inventory
 
   
+
+
   class Item
     attr_accessor :name, :price, :quantity, :units_sold, :updated_quantity, 
     :update_input, :reorder_level, :notification, :total_sales
@@ -187,7 +187,7 @@ require 'tty-prompt'
        @quantity[q] = @quantity[q] - @units_sold[q]
       q+=1
     end
-    @notification - item_notification
+    @notification = item_notification
     rows = []
      i=0
      while i < @name.length
@@ -277,10 +277,21 @@ require 'tty-prompt'
     
     puts table
   end
-
- 
-
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # end
 
@@ -306,26 +317,26 @@ end
 
 
 
-  # def regular_updates_of_inventory
-  #   item= Item.new
-  #   item.add_sold_units
-  #   item.message_exit_after_update
-  
-  #   loop do 
-  #     if item.update_input == "yes" 
-  #       item.add_sold_units
-  #       item.regular_daily_update
-  #       item.message_exit_after_update
-  #     end
-  #     break item.update_input == "no" 
-  #     if item.update_input != "no" && item.update_input != "yes"
-  #       puts "Incorrect Input: enter - yes or no\n".red.on_black + "-------------------------\n".light_cyan
-  #     end
-  #     item.message_exit_after_update
-  #   end
-  #   #work in progress................
-  # end
-  
+# def regular_updates_of_inventory
+#   item= Item.new
+#   item.add_sold_units
+#   item.message_exit_after_update
+
+#   loop do 
+#     if item.update_input == "yes" 
+#       item.add_sold_units
+#       item.regular_daily_update
+#       item.message_exit_after_update
+#     end
+#     break item.update_input == "no" 
+#     if item.update_input != "no" && item.update_input != "yes"
+#       puts "Incorrect Input: enter - yes or no\n".red.on_black + "-------------------------\n".light_cyan
+#     end
+#     item.message_exit_after_update
+#   end
+#   #work in progress................
+# end
+
 
 
 
