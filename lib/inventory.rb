@@ -28,14 +28,10 @@ loop do
     intro.intro_input == 4 
   when 5
     if item.units_sold.empty? == true
-      puts "Please choose Add Sold units before calculating sales".green.on_black
+      puts "Please Add Sold units before calculating sales".green.on_black
     else
-      if item.add_sold_units
+        item.add_sold_units
         item.get_sales(item.quantity, item.units_sold)
-        item.cumulative_sales(item.sales)
-      else
-        puts "Add sold units before calculating sales"
-      end
     end
     
   when 6
