@@ -31,7 +31,7 @@ require 'tty-prompt'
 
   class Item
     attr_accessor :name, :price, :quantity, :units_sold, :updated_quantity, 
-    :update_input, :reorder_level, :notification, :total_sales
+    :update_input, :reorder_level, :notification, :sales, :total_sales
     :stock_in
   
     def initialize
@@ -44,6 +44,7 @@ require 'tty-prompt'
       @units_sold = []
       @updated_quantity = []
       @notification = []
+      @sales = []
       @total_sales = []
     end
     
@@ -146,13 +147,14 @@ require 'tty-prompt'
   end
 
 
-  def message_exit_after_update
-    puts "Type 'yes' to continue or 'no' to exit(yes/no)"
-    puts "\n"
-    @update_input = gets.strip 
-  end
+  # def message_exit_after_update
+  #   puts "Type 'yes' to continue or 'no' to exit(yes/no)"
+  #   puts "\n"
+  #   @update_input = gets.strip 
+  # end
 
- #adds sold units......
+
+
   def add_sold_units
     i=0
     while i < @name.length
@@ -191,7 +193,7 @@ require 'tty-prompt'
     rows = []
      i=0
      while i < @name.length
-        rows << [@name[i].capitalize, @price[i], @quantity[i], 
+        rows << [@name[i].capitalize, @price[i], "#{@quantity[i]}(#{quantity[i]}-#{units_sold[i]})}", 
         @units_sold[i], @reorder_level[i], notification[i]]
         rows << :separator 
         i+=1
@@ -205,7 +207,7 @@ require 'tty-prompt'
   end
  
  
-  def regular_daily_update
+  def top_selling #work in progress........................
     @reorder_level = find_reorder_level
     @notification = item_notification
 
@@ -234,34 +236,20 @@ require 'tty-prompt'
 
   end
 
-
-   
-     
-
-
-  def sales(quantity,units_sold)
-    @quantity = quantity 
-    @units_sold =  units_sold 
- 
   
-     @sales = []
-     q =0
-     while q < @name.length
-      @sales[q] =  @units_sold[q] * @price[q]
-      q+=1
-     end
+  def cumulative_sales (sales)
+    @sales = sales
 
-       if @total_sales.length == 0
-           (0..9).each do |n|
-             @total_sales << @sales[n]
-            end
-        else
-          (0..9).each do |n|
-            @total_sales[n] = @total_sales[n] + @sales[n]
-          end
-        end
-
-   rows = []
+    if @total_sales.length == 0
+      (0..9).each do |n|
+        @total_sales << @sales[n]
+      end
+    elsif @total_sales.length != 0
+      (0..9).each do |n|
+        @total_sales[n] = @total_sales[n] + @sales[n]
+      end
+    end
+    rows = []
     i=0
     while i < @name.length
        rows << [@name[i].capitalize, @price[i], @quantity[i], 
@@ -272,11 +260,52 @@ require 'tty-prompt'
   
     table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
      .light_green, "Quantity".light_green, "Units_sold".light_green, 
-     "Sales(AUD$)".light_green, "Cumulative Sales".light_green], 
+     "Current Sales(AUD$)".light_green, "Cumulative Sales".light_green], 
      :rows => rows, :title => " Sales Check ".light_blue.on_black
     
     puts table
+    return @total_sales
   end
+
+     
+
+
+  def get_sales(quantity,units_sold)
+    @quantity = quantity 
+    @units_sold =  units_sold 
+ 
+  
+
+    q =0
+     while q < @name.length
+      @sales[q] =  @units_sold[q] * @price[q]
+      q+=1
+     end
+
+    
+  
+          
+
+
+  #  rows = []
+  #   i=0
+  #   while i < @name.length
+  #      rows << [@name[i].capitalize, @price[i], @quantity[i], 
+  #      @units_sold[i], @sales[i], @total_sales[i]]
+  #      rows << :separator 
+  #      i+=1
+  #   end
+  
+  #   table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
+  #    .light_green, "Quantity".light_green, "Units_sold".light_green, 
+  #    "Sales(AUD$)".light_green, "Cumulative Sales".light_green], 
+  #    :rows => rows, :title => " Sales Check ".light_blue.on_black
+    
+  #   puts table
+    return @sales
+  end
+
+
 end
 
 
