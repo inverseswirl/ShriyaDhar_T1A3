@@ -136,6 +136,7 @@ require 'tty-prompt'
         table.align_column(3, :center)
         table.align_column(4, :center)
       puts table
+      puts "Note guide: Display or Calculate Sales.".yellow
     return @stock_in
   end
 
@@ -154,11 +155,12 @@ require 'tty-prompt'
     end
  
     table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
-     .light_green, "Initial Quantity".light_green, "Optimum Reorder level".light_green,
+     .light_green, "Quantity".light_green, "Optimum Reorder level".light_green,
      "Notification".light_green], 
     :rows => rows, :title => " Inventory"
     .blue
     puts table
+    return @quantity
   end
 
 
@@ -201,7 +203,7 @@ require 'tty-prompt'
    def store_units(units_sold)
        @units_sold = units_sold
        @list_of_units << @units_sold
-      p  list_of_units
+         list_of_units
      return @list_of_units
     end
 
@@ -236,44 +238,18 @@ require 'tty-prompt'
       "Notification".light_green], 
       :rows => rows, :title => " Quantity Update ".light_blue.on_black
      puts  table
+     puts "Note guide: Replenish or Calculate Sales".yellow
       return @quantity
   end
  
  
-  def top_selling #work in progress........................
-    @reorder_level = find_reorder_level
-    @notification = item_notification
-
-   q=0
-    while q < @name.length
-      @updated_quantity[q] = @updated_quantity[q] - @units_sold[q]
-     q+=1
-    end
-   
-
-    rows = []
-    i=0
-    while i < @name.length
-       rows << [@name[i].capitalize, @price[i], @updated_quantity[i], 
-       @units_sold[i], @reorder_level[i], @notification[i]]
-       rows << :separator 
-       i+=1
-    end
-    
  
-    table = Terminal::Table.new :headings => ['Items'.light_green, 'Price(AUD$)'
-     .light_green, "Updated Quantity".light_green, "Units_sold".light_green, 
-     "Optimal reorder quantity".light_green], 
-     :rows => rows, :title => " Inventory".light_blue.on_black
-    puts table
-
-  end
 
   
   def cumulative_sales (sales)
      @sales = sales
    
-    
+    t = 0
     begin
      if @list_of_units.length == 1
        (0..9).each do |n|
@@ -295,20 +271,22 @@ require 'tty-prompt'
        "Current Sales(AUD$)".light_green, "Cumulative Sales".light_green], 
        :rows => rows, :title => " Sales Check ".light_blue.on_black
         puts table
-        puts "Note: Add freshly sold units to calculate new sales. "
+        puts "Note guide: Add freshly sold units to calculate new sales.".yellow
 
       elsif  @list_of_units[-2] != @units_sold
         (0..9).each do |n|
+          break if 
           @total_sales[n] = @total_sales[n] + @sales[n]
+
         end
 
         rows = []
-         i=0
-         while i < @name.length
-           rows << [@name[i].capitalize, @price[i], @quantity[i], 
-           @units_sold[i], @sales[i], "#{@total_sales[i]}$ (+)"]
+  
+         while t < @name.length
+           rows << [@name[t].capitalize, @price[t], @quantity[t], 
+           @units_sold[t], @sales[t], "#{@total_sales[t]}$ (+)"]
            rows << :separator 
-           i+=1
+           t+=1
           end
       
         table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
@@ -316,10 +294,10 @@ require 'tty-prompt'
         "Current Sales(AUD$)".light_green, "Cumulative Sales".light_green], 
         :rows => rows, :title => " Sales Check ".light_blue.on_black
         puts table
-        puts "Note guide : Next Add fresh sold units"
+        puts "Note guide : Next Add Sold units".yellow
       end
     rescue
-      puts "Note guide : Exit and try calculating sales immediately after adding units to capture initial sales".magenta
+      puts "Note guide : Exit and try calculating sales immediately after adding sold units to capture initial sales".magenta
     end
   end
 
