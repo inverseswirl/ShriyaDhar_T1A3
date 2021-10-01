@@ -10,7 +10,6 @@ puts intro.intro_description.magenta
 
 
 
-
 loop do
   puts "\n"
   puts intro.inventory_options
@@ -22,19 +21,18 @@ loop do
   when 2
     item.add_sold_units
     item.quantity_update
+    item.store_units(item.units_sold)
   when 3
     item.replenish_stock(item.quantity)
   when 4
-    intro.intro_input == 4 
-  when 5
-    if item.units_sold.empty? == true
+    if item.list_of_units.empty? == true
       puts "Please Add Sold units before calculating sales".green.on_black
     else
-        item.add_sold_units
-        item.get_sales(item.quantity, item.units_sold)
+      item.get_sales(item.quantity, item.units_sold)
+      item.cumulative_sales(item.sales)
     end
     
-  when 6
+  when 5
     break 
    end
 end

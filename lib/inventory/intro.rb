@@ -18,10 +18,10 @@ display stock list, update inventory, calculate sales and many other helpful tas
 "-------------------------------------------------------------------------------------\n"
     @options = [
      "Display Inventory Stock", "Add Sold units & Update Quantity",  
-     "Replenish low stock", "Top selling products",
-     "Calculate Sales", "Exit the app"
+     "Replenish low stock",
+     "Calculate Sales & Cumulative Sales", "Exit the app"
     ]
-   @intro_input = 0
+    @intro_input = 0
   end    
   
   def inventory_options
