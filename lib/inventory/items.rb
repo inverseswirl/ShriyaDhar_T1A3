@@ -32,7 +32,7 @@ require 'tty-prompt'
   class Item
     attr_accessor :name, :price, :quantity, :units_sold, :updated_quantity, 
     :update_input, :reorder_level, :notification, :sales, :total_sales,
-    :stock_in, :quantity_previous, :before_replenish, :list_of_units, :temp
+    :stock_in, :quantity_previous, :before_replenish, :list_of_units, :input_user
   
     def initialize
      @name = ["scented_candles", "greeting_cards", "wall_clocks", 
@@ -164,16 +164,10 @@ require 'tty-prompt'
   end
 
 
-  # def message_exit_after_update
-  #   puts "Type 'yes' to continue or 'no' to exit(yes/no)"
-  #   puts "\n"
-  #   @update_input = gets.strip 
-  # end
 
 
 
   def add_sold_units
-   
     @units_sold = []
     i=0
     while i < @name.length
@@ -181,18 +175,18 @@ require 'tty-prompt'
                          "#{i + 1}. Add no. of #{@name[i]} sold : "
 
      print units_sold_prompt
-     input_user = gets.strip
+     @input_user = gets.strip
      puts "\n"
-     if input_user =~ /\D/ || input_user.empty? == true 
+     if @input_user =~ /\D/ || @input_user.empty? == true 
      #to limit input of too many digits beyond the maximum selling units= 30, no characters and alphabets
         puts " Invalid input: ".light_red.on_black + "add positive integer only"
        .light_red.on_black
         next
-     elsif input_user.to_i > 100
+     elsif @input_user.to_i > 100
       puts "Maximum limit 100,try smaller range".light_red.on_black
       next
-     elsif input_user =~ /[0-9]/ 
-        @units_sold[i] = input_user.to_i
+     elsif @input_user =~ /[0-9]/ 
+        @units_sold[i] = @input_user.to_i
       end
      i+=1
     end
@@ -299,6 +293,7 @@ require 'tty-prompt'
     rescue
       puts "Note guide : Exit and try calculating sales immediately after adding sold units to capture initial sales".magenta
     end
+    return @total_sales
   end
 
   
