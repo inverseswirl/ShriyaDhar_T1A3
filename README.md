@@ -55,13 +55,15 @@ The notification function helps to inform the owner about the reorder levels and
 
 Sales are an important part of the Inventory app. The _sales option_ helps the owner determine which products are of most value to their business and are top-selling. Sales are calculated using the factors - the unit price of the product multiplied by the product units sold. This informs the user of the sales contributed by each product in their inventory list. Excessive inventory comes with a cost for any business. The products of _high value_ i.e the ones that bring the maximum percentage of margins are the star performers out of all products. Maintaining a good inventory of that product is crucial for the sustenance of good business.
 
-Control Flow
+### **Control Flow**
 
 ### **User interaction**
 
-1. User will be prompted multiple options on opening the app. then uiser can perform multiple tasks or actions to manage Inventory.
+1. User will be prompted multiple options on opening the app. Then the user can perform multiple tasks or actions to manage Inventory.
 
-2. User can view the Invnetoyr using **Display Invnetory option**. If user wants to add the sold units and updte quantity, he can use the **Add Sold units & Update Quantity option**. 
+2. User can view the Inventory using **Display Inventory option**. If the user wants to add the sold units and update quantity, he can use the **Add Sold units & Update Quantity option**. 
+
+3. 
 
 
 
