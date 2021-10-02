@@ -23,34 +23,33 @@ require 'tty-prompt'
 
 
 
-#Module inventory for first Feature........
-# module Inventory
 
+
+
+
+
+class Item
+  attr_accessor :name, :price, :quantity, :units_sold, :updated_quantity, 
+  :update_input, :reorder_level, :notification, :sales, :total_sales,
+  :stock_in, :quantity_previous, :before_replenish, :list_of_units, :input_user
   
-
-
-  class Item
-    attr_accessor :name, :price, :quantity, :units_sold, :updated_quantity, 
-    :update_input, :reorder_level, :notification, :sales, :total_sales,
-    :stock_in, :quantity_previous, :before_replenish, :list_of_units, :input_user
-  
-    def initialize
-     @name = ["scented_candles", "greeting_cards", "wall_clocks", 
-      "photo_frames", "soft_toys", "perfume_bottles", "chocolate_boxes", 
-      "Jigsaw_puzzle_box", "souvenir_mugs", "novels"]
-      @price = [15, 10, 50, 18, 70, 150, 65, 78, 25, 20]
-      @quantity = [104, 200, 20, 30, 20, 22, 25, 15, 30, 50]
-      @quantity_previous = []
-      @reorder_level = []
-      @units_sold = []
-      @list_of_units = []
-      @updated_quantity = []
-      @notification = []
-      @before_replenish = []
-      @sales = []
-      @total_sales = []
-      @temp = []
-    end
+  def initialize
+    @name = ["scented_candles", "greeting_cards", "wall_clocks", 
+    "photo_frames", "soft_toys", "perfume_bottles", "chocolate_boxes", 
+    "Jigsaw_puzzle_box", "souvenir_mugs", "novels"]
+    @price = [15, 10, 50, 18, 70, 150, 65, 78, 25, 20]
+    @quantity = [104, 200, 20, 30, 20, 22, 25, 15, 30, 50]
+    @quantity_previous = []
+    @reorder_level = []
+    @units_sold = []
+    @list_of_units = []
+    @updated_quantity = []
+    @notification = []
+    @before_replenish = []
+    @sales = []
+    @total_sales = []
+    @temp = []
+  end
     
    
    
@@ -197,7 +196,6 @@ require 'tty-prompt'
    def store_units(units_sold)
        @units_sold = units_sold
        @list_of_units << @units_sold
-         list_of_units
      return @list_of_units
     end
 
@@ -291,7 +289,8 @@ require 'tty-prompt'
         puts "Note guide : Next Add Sold units".yellow
       end
     rescue
-      puts "Note guide : Exit and try calculating sales immediately after adding sold units to capture initial sales".magenta
+      puts "Note guide : Exit and try calculating sales immediately after 
+      adding sold units to capture initial sales".magenta
     end
     return @total_sales
   end
@@ -328,7 +327,6 @@ require 'tty-prompt'
     return @sales
   end
 
-
 end
 
 
@@ -345,7 +343,6 @@ end
 
 
 
-# end
 
 
 
@@ -361,33 +358,6 @@ end
 
 
 
-
-
-
-
-
-
-
-
-# def regular_updates_of_inventory
-#   item= Item.new
-#   item.add_sold_units
-#   item.message_exit_after_update
-
-#   loop do 
-#     if item.update_input == "yes" 
-#       item.add_sold_units
-#       item.regular_daily_update
-#       item.message_exit_after_update
-#     end
-#     break item.update_input == "no" 
-#     if item.update_input != "no" && item.update_input != "yes"
-#       puts "Incorrect Input: enter - yes or no\n".red.on_black + "-------------------------\n".light_cyan
-#     end
-#     item.message_exit_after_update
-#   end
-#   #work in progress................
-# end
 
 
 
