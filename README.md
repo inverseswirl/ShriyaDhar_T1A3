@@ -57,16 +57,51 @@ Sales are an important part of the Inventory app. The _sales option_ helps the o
 
 ### **Control Flow**
 
+![control_flow](./docs/control_flow.png)
+
 ### **User interaction**
 
 1. User will be prompted multiple options on opening the app. Then the user can perform multiple tasks or actions to manage Inventory.
 
 2. User can view the Inventory using **Display Inventory option**. If the user wants to add the sold units and update quantity, he can use the **Add Sold units & Update Quantity option**. 
 
-3. 
+3.  Once the user has added sold units, he can calculate sales and view the sales using the Calculate sales option. He will also be able to obtain cumulative sales. User will be provided with a note guide at the bottom of the table to add sold units once the sales have been checked to get the updated sales for the next day.
+
+4. This way users can continuously update quantity, or replenish the stock or find sales for the units sold.
+
+5. If a user tries to calculate sales before adding sold units, he will be prompted with a message - **"Please Add Sold units before calculating sales"**. 
 
 
+### **Installation**
 
+1. Open the terminal and Go to your Desktop from terminal
+
+```
+cd Desktop
+```
+
+2. Use the command below to clone the git repository. This will create a new folder ShriyaDhar_T1A3 and clone all the files present in the repository inside the folder.
+
+```
+git clone git@github.com:inverseswirl/ShriyaDhar_T1A3.git
+```
+
+3. Go to the folder 
+
+```
+cd ShriyaDhar_T1A3
+```
+
+4. Run the executable file with the command given below. This will start the app.
+
+```
+./run_inventory_app.sh 
+```
+
+
+### **Implementation**
+
+The [link](https://trello.com/b/YxuGO6LC/giftshopinventory-app) to the Trello board for implementation plan.
 
 
 

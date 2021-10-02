@@ -1,6 +1,6 @@
 require '../lib/inventory/items'
 require '../lib/inventory/intro'
-# require '../lib/inventory'
+
 
 
 
@@ -23,12 +23,12 @@ describe Item do
         expect( item.item_notification).to eq(item.notification)
     end
 
-    #feature 2 - Test for Caluclation of sales 
+    #feature 2 - Test for Calculation of sales 
     it 'should help to check whether the .get_sales method returns sales' do
        item = Item.new
        expect(item.get_sales(item.units_sold, item.quantity)).to eq(item.sales)
     end
-       it 'should handle error from eithin the cumulative sales method as units sold are not added yet.' do
+       it 'should handle any error from within the cumulative sales method.' do
         item = Item.new
         expect(item.cumulative_sales(item.sales)).to eq(item.total_sales)
     end
