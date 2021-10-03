@@ -67,7 +67,7 @@ Cumulative sales will help to determine the top-selling product. It is the produ
 
 ### **Control Flow**
 
-<img src="./docs/controlflow.png">
+![control_flow](./controlflow.png)
 
 ### **User interaction**
 
