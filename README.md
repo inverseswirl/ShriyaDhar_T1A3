@@ -51,9 +51,19 @@ Replenishing stock is essential. When the owner receives the physical quantity o
 
 The notification function helps to inform the owner about the reorder levels and keep the stock levels up-to-date.
 
+If the `Stock already full` signs flashes, that particular quantity won't get replenished as it is already full and up-to-date.
+If the notification shows, `Reorder level reached` or `Very low in stock.` for products, those products will get replenished. 
+ 
 **4. Calculate Sales and Cumulative sales**
 
 Sales are an important part of the Inventory app. The **sales option** helps the owner determine which products are of most value to their business and are top-selling. Sales are calculated using the factors - the unit price of the product multiplied by the product units sold. This informs the user of the sales contributed by each product in their inventory list. Excessive inventory comes with a cost for any business. The products of **high value** i.e the ones that bring the maximum percentage of margins are the star performers out of all products. Maintaining a good inventory of that product is crucial for the sustenance of good business.
+This option also helps to obtain Cumulative sales. That in turn will help to determine the most valuable product which brings maximum sales persistently.
+
+**5. Top selling product**
+
+Cumulative sales will help to determine the top-selling product. It is the product that brings maximum sales for the business. This always guides the owner to replenish the stock of this product and never maintain a low stock. This product is usually in high demand. A good inventory of this product will ensure that this product never runs out of stock and saves business costs as much as possible.
+
+
 
 ### **Control Flow**
 
@@ -65,11 +75,13 @@ Sales are an important part of the Inventory app. The **sales option** helps the
 
 2. User can view the Inventory using **Display Inventory option**. If the user wants to add the sold units and update quantity, he can use the **Add Sold units & Update Quantity option**. 
 
-3.  Once the user has added sold units, he can calculate sales and view the sales using the Calculate sales option. He will also be able to obtain cumulative sales. User will be provided with a note guide at the bottom of the table to add sold units once the sales have been checked to get the updated sales for the next day.
+3.  Once the user has added sold units, he can obtain sales and view the sales using the **Sales option**. He will also be able to obtain **cumulative sales**. 
 
-4. This way users can continuously update quantity, or replenish the stock or find sales for the units sold.
+4. If the user wishes to obtain the top-selling product, he can choose the **option 5 - Top selling product**.
 
-5. If a user tries to calculate sales before adding sold units, he will be prompted with a message - **"Please Add Sold units before calculating sales"**. 
+5. This way users can continuously update quantity, or replenish the stock or obtain sales or top-selling product for the units sold.
+ 
+6. If a user tries to obtain sales or check top-selling product before adding sold units, he will be prompted with a message that says **"Add Sold units before obtaining sales or top selling product**. 
 
 
 ### **Installation**

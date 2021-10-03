@@ -19,7 +19,7 @@ display stock list, update inventory, calculate sales and many other helpful tas
     @options = [
      "Display Inventory Stock", "Add Sold units & Update Quantity",  
      "Replenish low stock",
-     "Calculate Sales & Cumulative Sales", "Top selling product",
+     "Sales & Cumulative Sales", "Top selling product",
      "Exit the app"
     ]
     @intro_input = 0

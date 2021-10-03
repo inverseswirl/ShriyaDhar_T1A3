@@ -133,15 +133,13 @@ class Item
         table.align_column(3, :center)
         table.align_column(4, :center)
       puts table
-      puts "Note guide: Display stock or Calculate Sales or add fresh Sold units".light_green
     return @stock_in
   end
 
 
-  def display_list(quantity)
+  def display_list
     @reorder_level = find_reorder_level
     @notification = item_notification
-    @quantity =  quantity 
     rows = []
     i=0
     while i < @name.length
@@ -175,7 +173,7 @@ class Item
      @input_user = gets.strip
      puts "\n"
      if @input_user =~ /\D/ || @input_user.empty? == true 
-     #to limit input of too many digits beyond the maximum selling units= 30, no characters and alphabets
+     #to limit input of too many digits beyond the maximum selling units= 100, no characters and alphabets
         puts " Invalid input: ".light_red.on_black + "add positive integer only"
        .light_red.on_black
         next
@@ -226,7 +224,6 @@ class Item
       "Notification".light_green], 
       :rows => rows, :title => " Quantity Update ".light_blue.on_black
      puts  table
-     puts "Note guide: Replenish or Calculate Sales".light_green
       return @quantity
   end
  
@@ -250,10 +247,9 @@ class Item
           @total_sales[n] = @total_sales[n] + @sales[n]
         end
       end
-      
+
     rescue
-      puts "Note guide : Exit and try calculating sales immediately after 
-      adding sold units to capture initial sales".magenta
+      puts "Note guide : Exit and try again".magenta
     end
     return @total_sales
   end
@@ -305,11 +301,9 @@ class Item
      "Top selling produt".light_green], 
      :rows => rows, :title => " Top selling product ".light_blue.on_black
      puts table
-     puts 'Note guide: Next Add fresh Sold units or replenish'.light_green
-
 
     else
-     puts 'Add fresh Sold units to Calculate Sales before checking top selling product.'.light_green
+     puts 'Add fresh Sold units before checking top selling product.'.light_green
     end
   end
 
@@ -326,10 +320,9 @@ class Item
       
         table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
         .light_green, "Quantity".light_green, "Units_sold".light_green, 
-        "Current Sales(AUD$)".light_green, "Cumulative Sales".light_green], 
+        "Current Sales(AUD$)".light_green, "Cumulative Sales(Previous + Current sales)".light_green], 
         :rows => rows, :title => " Sales Check ".light_blue.on_black
         puts table
-        puts "Note guide : Next Add Sold units or check top selling product".yellow
   end
 
 end

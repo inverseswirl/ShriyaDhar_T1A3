@@ -18,7 +18,7 @@ loop do
 
   case intro.intro_input
   when 1
-    item.display_list(item.quantity)
+    item.display_list
   when 2
     item.add_sold_units
     item.quantity_update
