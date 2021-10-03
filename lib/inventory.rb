@@ -14,7 +14,7 @@ loop do
   puts "\n"
   puts intro.inventory_options
   intro.input
-  # system("clear")
+  system("clear")
 
   case intro.intro_input
   when 1
@@ -30,7 +30,7 @@ loop do
     item.replenish_stock(item.quantity)
   when 4
     if item.list_of_units.empty? == true
-      puts "Please Add Sold units before obtaining sales".green.on_black
+      puts "Note: Please Add Sold units before obtaining sales".green.on_black
     else
     item.display_sales
     end

@@ -6,7 +6,7 @@ It will help them to view the initial Inventory stock in hand, make changes to t
 
 The owner will initially login into the app. He/She will be welcomed by a message describing, in brief, the purpose of the app. Then the user will see a list of options and will be prompted to select one from those options. The owner can then select the actions or tasks he wishes to perform. The owner can perform multiple tasks and once finished can exit from the app by making the last choice. The result is displayed in the form of tables for a tabular overlook of the changes updated in the Inventory Stock.
 
-As the user progresses and uses multiple options, the state of inventory changes continuously. For instance, at any time owner chooses to add the purchase order and replenish his stock in the app, the owner can choose Replenish order option and the fresh stock units will get added to the previous quantity. Once user is done will all tasks, he can exit the app choosing the Exit option.
+As the user progresses and uses multiple options, the state of inventory changes continuously. For instance, at any time owner chooses to add the purchase order and replenish his stock in the app, the owner can choose Replenish order option and the fresh stock units will get added to the previous quantity. Once the user is done will all tasks, he can exit the app choosing the Exit option.
 
 
 ### **Limitations**
@@ -39,7 +39,7 @@ Users can log into the app and visualize the initial Inventory stock. This data 
 When the user chooses option 1, he will be able to see the product names, the unit price of each product, the initial quantity of each product, Optimum reorder levels and the notification for the current stock levels. There are total ten products in the inventory in this app. The current quantity is compared with the reorder levels. If the quantity is lesser than the reorder level, 
 it will show an indicator to the owner as - `Very low in stock.` Similarly, if the stock is equal to the reorder level, it will display - `Reorder level reached` and if the quantity is greater than the reorder level it will indicate- `Stock already full`.
 
-The owner can decide to replenish the stock or add sold units etc. 
+The owner can decide to replenish the stock or add sold units etc. At any given point of time during the inventory management process, when the owner wishes to view the stock inventory, this is the option for it. It will reflect all the changes made so far, whether the stock is replenished or units sold removed from the quantity, sales checked etc.
 
 **2. Add Sold units and update qantity**
 
@@ -53,7 +53,9 @@ The notification function helps to inform the owner about the reorder levels and
 
 If the `Stock already full` signs flashes, that particular quantity won't get replenished as it is already full and up-to-date.
 If the notification shows, `Reorder level reached` or `Very low in stock.` for products, those products will get replenished. 
- 
+
+Ideally, after viewing the Inventory, the owner must replenish the stock till the stock is full for all items to stay safe in case of high demands.
+
 **4. Calculate Sales and Cumulative sales**
 
 Sales are an important part of the Inventory app. The **sales option** helps the owner determine which products are of most value to their business and are top-selling. Sales are calculated using the factors - the unit price of the product multiplied by the product units sold. This informs the user of the sales contributed by each product in their inventory list. Excessive inventory comes with a cost for any business. The products of **high value** i.e the ones that bring the maximum percentage of margins are the star performers out of all products. Maintaining a good inventory of that product is crucial for the sustenance of good business.

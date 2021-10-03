@@ -31,7 +31,8 @@ require 'tty-prompt'
 class Item
   attr_accessor :name, :price, :quantity, :units_sold,
   :update_input, :reorder_level, :notification, :sales, :total_sales,
-  :stock_in, :quantity_previous, :before_replenish, :list_of_units, :input_user
+  :stock_in, :quantity_previous, :before_replenish, :list_of_units, :input_user,
+  :previous_sales
   
   def initialize
     @name = ["scented_candles", "greeting_cards", "wall_clocks", 
@@ -47,6 +48,7 @@ class Item
     @before_replenish = []
     @sales = []
     @total_sales = []
+    @previous_sales = []
   end
     
    
@@ -248,6 +250,10 @@ class Item
         end
       end
 
+      (0..9).each do |n|
+        @previous_sales[n] = @total_sales[n] - @sales[n]
+      end
+
     rescue
       puts "Note guide : Exit and try again".magenta
     end
@@ -278,7 +284,7 @@ class Item
     i = 0
     @top_selling_product_sales = 0
    if @total_sales.empty? != true
-     while t < @total_sales.length
+      while t < @total_sales.length
        if @total_sales[t] > @top_selling_product_sales
          @top_selling_product_sales = @total_sales[t] 
           index_of_the_product = t
@@ -290,7 +296,7 @@ class Item
       while i < @name.length
         if i == index_of_the_product
          rows << [@name[i].capitalize, @price[i], @quantity[i], 
-         @units_sold[i], @sales[i], "#{@total_sales[i]}$ (+)", "$$$"]
+         @units_sold[i], @sales[i], "#{@total_sales[i]}$ (+)", "$$$ - #{@name[i]}".light_green]
         end
         i+=1
       end
@@ -298,34 +304,34 @@ class Item
      table = Terminal::Table.new :headings => ['Item'.light_green, 'Unit Price(AUD$)'
      .light_green, "Quantity".light_green, "Units_sold".light_green, 
      "Current Sales(AUD$)".light_green, "Cumulative Sales".light_green,
-     "Top selling produt".light_green], 
+     "Top selling product".light_green], 
      :rows => rows, :title => " Top selling product ".light_blue.on_black
      puts table
 
     else
-     puts 'Add fresh Sold units before checking top selling product.'.light_green
+     puts 'Note: Add fresh Sold units before checking top selling product.'.light_green
     end
   end
 
   def display_sales
     t = 0
     rows = []
-  
-         while t < @name.length
-           rows << [@name[t].capitalize, @price[t], @quantity[t], 
-           @units_sold[t], @sales[t], "#{@total_sales[t]}$ (+)"]
-           rows << :separator 
-           t+=1
-          end
+      while t < @name.length
+        rows << [@name[t].capitalize, @price[t], @quantity[t], 
+        @units_sold[t], @sales[t], "#{@total_sales[t]} " + "(#{@previous_sales[t]}+#{@sales[t]})".magenta]
+        rows << :separator 
+        t+=1
+      end
       
-        table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
-        .light_green, "Quantity".light_green, "Units_sold".light_green, 
-        "Current Sales(AUD$)".light_green, "Cumulative Sales(Previous + Current sales)".light_green], 
-        :rows => rows, :title => " Sales Check ".light_blue.on_black
-        puts table
+    table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
+    .light_green, "Quantity".light_green, "Units_sold".light_green, 
+    "Current Sales(AUD$)".light_green, "Cumulative Sales$(Previous + Current sales)".light_green], 
+    :rows => rows, :title => " Sales Check ".light_blue.on_black
+    puts table
   end
-
+  
 end
+  
 
 
 
