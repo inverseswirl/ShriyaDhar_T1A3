@@ -29,7 +29,7 @@ require 'tty-prompt'
 
 
 class Item
-  attr_accessor :name, :price, :quantity, :units_sold, :updated_quantity, 
+  attr_accessor :name, :price, :quantity, :units_sold,
   :update_input, :reorder_level, :notification, :sales, :total_sales,
   :stock_in, :quantity_previous, :before_replenish, :list_of_units, :input_user
   
@@ -43,12 +43,10 @@ class Item
     @reorder_level = []
     @units_sold = []
     @list_of_units = []
-    @updated_quantity = []
     @notification = []
     @before_replenish = []
     @sales = []
     @total_sales = []
-    @temp = []
   end
     
    
@@ -135,7 +133,7 @@ class Item
         table.align_column(3, :center)
         table.align_column(4, :center)
       puts table
-      puts "Note guide: Display or Calculate Sales.".yellow
+      puts "Note guide: Display stock or Calculate Sales or add fresh Sold units".light_green
     return @stock_in
   end
 
@@ -201,8 +199,6 @@ class Item
 
 
 
-
-
   def quantity_update
     @reorder_level = find_reorder_level
     @notification = item_notification
@@ -230,12 +226,14 @@ class Item
       "Notification".light_green], 
       :rows => rows, :title => " Quantity Update ".light_blue.on_black
      puts  table
-     puts "Note guide: Replenish or Calculate Sales".yellow
+     puts "Note guide: Replenish or Calculate Sales".light_green
       return @quantity
   end
  
  
  
+
+  
 
   
   def cumulative_sales (sales)
@@ -247,47 +245,12 @@ class Item
        (0..9).each do |n|
          @total_sales[n] = @sales[n]
         end
-      
-
-       rows = []
-        i = 0
-       while i < @name.length
-         rows << [@name[i].capitalize, @price[i], @quantity[i], 
-         @units_sold[i], @sales[i], "#{@total_sales[i]}$ (+)".magenta]
-         rows << :separator 
-         i+=1
-        end
-    
-       table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
-       .light_green, "Quantity".light_green, "Units_sold".light_green, 
-       "Current Sales(AUD$)".light_green, "Cumulative Sales".light_green], 
-       :rows => rows, :title => " Sales Check ".light_blue.on_black
-        puts table
-        puts "Note guide: Add freshly sold units to calculate new sales.".yellow
-
-      elsif  @list_of_units[-2] != @units_sold
+      elsif  @list_of_units.length > 1
         (0..9).each do |n|
-          break if 
           @total_sales[n] = @total_sales[n] + @sales[n]
-
         end
-
-        rows = []
-  
-         while t < @name.length
-           rows << [@name[t].capitalize, @price[t], @quantity[t], 
-           @units_sold[t], @sales[t], "#{@total_sales[t]}$ (+)"]
-           rows << :separator 
-           t+=1
-          end
-      
-        table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
-        .light_green, "Quantity".light_green, "Units_sold".light_green, 
-        "Current Sales(AUD$)".light_green, "Cumulative Sales".light_green], 
-        :rows => rows, :title => " Sales Check ".light_blue.on_black
-        puts table
-        puts "Note guide : Next Add Sold units".yellow
       end
+      
     rescue
       puts "Note guide : Exit and try calculating sales immediately after 
       adding sold units to capture initial sales".magenta
@@ -302,29 +265,71 @@ class Item
     @quantity = quantity 
     @units_sold =  units_sold 
 
-
     q =0
      while q < @name.length
       @sales[q] =  @units_sold[q] * @price[q]
       q+=1
     end
-
-   rows = []
-    i=0
-    while i < @name.length
-       rows << [@name[i].capitalize, "#{@price[i]} (*)".yellow, @quantity[i], 
-       "#{@units_sold[i]}".yellow, "#{@sales[i]}$".magenta, "#{@total_sales[i]}$()"]
-       rows << :separator 
-       i+=1
-    end
-  
-    table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
-     .light_green, "Current Quantity".light_green, "Units_sold".light_green, 
-     "Sales(AUD$)".light_green, "Cumulative Sales".light_green], 
-     :rows => rows, :title => " Sales Check ".light_blue.on_black
-    
-    # puts table
     return @sales
+  end
+
+
+
+  def get_top_selling_item(total_sales, sales)
+    @total_sales = total_sales
+    @sales = sales
+    t = 0
+    i = 0
+    @top_selling_product_sales = 0
+   if @total_sales.empty? != true
+     while t < @total_sales.length
+       if @total_sales[t] > @top_selling_product_sales
+         @top_selling_product_sales = @total_sales[t] 
+          index_of_the_product = t
+        end
+       t+=1
+      end
+
+      rows = []
+      while i < @name.length
+        if i == index_of_the_product
+         rows << [@name[i].capitalize, @price[i], @quantity[i], 
+         @units_sold[i], @sales[i], "#{@total_sales[i]}$ (+)", "$$$"]
+        end
+        i+=1
+      end
+   
+     table = Terminal::Table.new :headings => ['Item'.light_green, 'Unit Price(AUD$)'
+     .light_green, "Quantity".light_green, "Units_sold".light_green, 
+     "Current Sales(AUD$)".light_green, "Cumulative Sales".light_green,
+     "Top selling produt".light_green], 
+     :rows => rows, :title => " Top selling product ".light_blue.on_black
+     puts table
+     puts 'Note guide: Next Add fresh Sold units or replenish'.light_green
+
+
+    else
+     puts 'Add fresh Sold units to Calculate Sales before checking top selling product.'.light_green
+    end
+  end
+
+  def display_sales
+    t = 0
+    rows = []
+  
+         while t < @name.length
+           rows << [@name[t].capitalize, @price[t], @quantity[t], 
+           @units_sold[t], @sales[t], "#{@total_sales[t]}$ (+)"]
+           rows << :separator 
+           t+=1
+          end
+      
+        table = Terminal::Table.new :headings => ['Items'.light_green, 'Unit Price(AUD$)'
+        .light_green, "Quantity".light_green, "Units_sold".light_green, 
+        "Current Sales(AUD$)".light_green, "Cumulative Sales".light_green], 
+        :rows => rows, :title => " Sales Check ".light_blue.on_black
+        puts table
+        puts "Note guide : Next Add Sold units or check top selling product".yellow
   end
 
 end
