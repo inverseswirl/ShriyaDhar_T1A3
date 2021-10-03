@@ -21,13 +21,6 @@ require 'tty-prompt'
 #- feature replenish stock
 
 
-
-
-
-
-
-
-
 class Item
   attr_accessor :name, :price, :quantity, :units_sold,
   :update_input, :reorder_level, :notification, :sales, :total_sales,
@@ -162,8 +155,6 @@ class Item
 
 
 
-
-
   def add_sold_units
     @units_sold = []
     i=0
@@ -191,11 +182,11 @@ class Item
   end
 
 
-   def store_units(units_sold)
-       @units_sold = units_sold
-       @list_of_units << @units_sold
-     return @list_of_units
-    end
+  def store_units(units_sold)
+      @units_sold = units_sold
+      @list_of_units << @units_sold
+    return @list_of_units
+  end
 
 
 
@@ -232,9 +223,6 @@ class Item
  
  
 
-  
-
-  
   def cumulative_sales (sales)
      @sales = sales
    
@@ -262,7 +250,6 @@ class Item
 
   
  
-
   def get_sales(quantity,units_sold)
     @quantity = quantity 
     @units_sold =  units_sold 
@@ -274,7 +261,6 @@ class Item
     end
     return @sales
   end
-
 
 
   def get_top_selling_item(total_sales, sales)
