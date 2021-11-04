@@ -22,7 +22,7 @@ require 'tty-prompt'
 
 
 class Item
-  attr_accessor :name, :price, :quantity, :units_sold,
+  attr_reader :name, :price, :quantity, :units_sold,
   :update_input, :reorder_level, :notification, :sales, :total_sales,
   :stock_in, :quantity_previous, :before_replenish, :list_of_units, :input_user,
   :previous_sales

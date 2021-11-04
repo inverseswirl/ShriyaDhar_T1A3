@@ -2,7 +2,7 @@ require 'colorize'
 require 'tty-box'
 
 class Intro
-  attr_accessor :intro_description, :intro_message, :options, :intro_input
+  attr_reader  :intro_message, :intro_description, :intro_input
   def initialize
     @intro_message = "\n"\
   "_ _  _ _  _ ____ _  _ ___ ____ ____ _   _    ____ ___  ___\n"\
