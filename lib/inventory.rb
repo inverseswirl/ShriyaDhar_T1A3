@@ -37,6 +37,9 @@ loop do
   when 5
     item.get_top_selling_item(item.total_sales, item.sales)
   when 6
+    puts " "
+    puts "Goodbye! See you next time!"
+    puts " "
     break
    end
 end
