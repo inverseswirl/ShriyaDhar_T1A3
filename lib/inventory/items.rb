@@ -251,8 +251,8 @@ class Item
   
  
   def get_sales(quantity,units_sold)
-    @quantity = quantity 
-    @units_sold =  units_sold 
+   @quantity = quantity
+   @units_sold = units_sold
 
     q =0
      while q < @name.length
